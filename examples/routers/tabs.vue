@@ -21,14 +21,14 @@
         background: #fff;
     }
     .demo-tabs-style2 > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active{
-        border-top: 1px solid #3399ff;
+        border-top: 1px solid #1ab394;
     }
     .demo-tabs-style2 > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active:before{
         content: '';
         display: block;
         width: 100%;
         height: 1px;
-        background: #3399ff;
+        background: #1ab394;
         position: absolute;
         top: 0;
         left: 0;
