@@ -58,7 +58,7 @@
     <div>
         <Row>
             <i-col span="8">
-                <Menu :theme="theme2" @on-select="s">
+                <i-menu :theme="theme2" @on-select="s">
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper"></Icon>
@@ -91,10 +91,10 @@
                             <Menu-item name="3-5">流失用户</Menu-item>
                         </Menu-group>
                     </Submenu>
-                </Menu>
+                </i-menu>
             </i-col>
             <i-col span="8">
-                <Menu :theme="theme2" active-name="1-2" :open-names="['1']" @on-select="s">
+                <i-menu :theme="theme2" active-name="1-2" :open-names="['1']" @on-select="s">
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper"></Icon>
@@ -127,10 +127,10 @@
                             <Menu-item name="3-5">流失用户</Menu-item>
                         </Menu-group>
                     </Submenu>
-                </Menu>
+                </i-menu>
             </i-col>
             <i-col span="8">
-                <Menu :theme="theme2" :open-names="['1']" accordion @on-select="s">
+                <i-menu :theme="theme2" :open-names="['1']" accordion @on-select="s">
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper"></Icon>
@@ -163,7 +163,7 @@
                             <Menu-item name="3-5">流失用户</Menu-item>
                         </Menu-group>
                     </Submenu>
-                </Menu>
+                </i-menu>
             </i-col>
         </Row>
         <br>
