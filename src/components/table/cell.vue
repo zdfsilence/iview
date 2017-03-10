@@ -1,16 +1,18 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" ref="cell">
         <template v-if="renderType === 'index'">{{naturalIndex + 1}}</template>
         <template v-if="renderType === 'selection'">
-            <Checkbox :checked="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
+            <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
-        <template v-if="renderType === 'normal'">{{{ row[column.key] }}}</template>
+        <template v-if="renderType === 'normal'"><span v-html="row[column.key]"></span></template>
     </div>
 </template>
 <script>
+    import Vue from 'vue';
     import Checkbox from '../checkbox/checkbox.vue';
 
     export default {
+        name: 'TableCell',
         components: { Checkbox },
         props: {
             prefixCls: String,
@@ -29,7 +31,7 @@
             return {
                 renderType: '',
                 uid: -1,
-                content: this.$parent.$parent.content
+                content: this.$parent.$parent.currentContent
             };
         },
         computed: {
@@ -50,15 +52,27 @@
                     const template = this.column.render(this.row, this.column, this.index);
                     const cell = document.createElement('div');
                     cell.innerHTML = template;
-                    const _oldParentChildLen = $parent.$children.length;
-                    $parent.$compile(cell);    // todo 这里无法触发 ready 钩子
-                    const _newParentChildLen = $parent.$children.length;
-
-                    if (_oldParentChildLen !== _newParentChildLen) {    // if render normal html node, do not tag
-                        this.uid = $parent.$children[$parent.$children.length - 1]._uid;    // tag it, and delete when data or columns update
-                    }
+//                    const _oldParentChildLen = $parent.$children.length;
+//                    const _newParentChildLen = $parent.$children.length;
+//                    if (_oldParentChildLen !== _newParentChildLen) {    // if render normal html node, do not tag
+//                        this.uid = $parent.$children[$parent.$children.length - 1]._uid;    // tag it, and delete when data or columns update
+//                    }
                     this.$el.innerHTML = '';
-                    this.$el.appendChild(cell);
+                    let methods = {};
+                    Object.keys($parent).forEach(key => {
+                        const func = $parent[`${key}`];
+                        if (typeof(func) === 'function' && func.name  === 'boundFn') {
+                            methods[`${key}`] = func;
+                        }
+                    });
+                    const res = Vue.compile(cell.outerHTML);
+                    const component = new Vue({
+                        render: res.render,
+                        staticRenderFns: res.staticRenderFns,
+                        methods: methods
+                    });
+                    const Cell = component.$mount();
+                    this.$refs.cell.appendChild(Cell.$el);
                 }
             },
             destroy () {
@@ -73,7 +87,7 @@
                 this.$parent.$parent.toggleSelect(this.index);
             }
         },
-        compiled () {
+        created () {
             if (this.column.type === 'index') {
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {
@@ -84,8 +98,10 @@
                 this.renderType = 'normal';
             }
         },
-        ready () {
-            this.compile();
+        mounted () {
+            this.$nextTick(() => {
+                this.compile();
+            });
         },
         beforeDestroy () {
             this.destroy();
