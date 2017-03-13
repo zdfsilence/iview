@@ -19,11 +19,11 @@ import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
-// import LoadingBar from './components/loading-bar';
+import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
-// import Message from './components/message';
-// import Modal from './components/modal';
-// import Notice from './components/notice';
+import Message from './components/message';
+import Modal from './components/modal';
+import Notice from './components/notice';
 import Page from './components/page';
 import Poptip from './components/poptip';
 import Progress from './components/progress';
@@ -33,7 +33,7 @@ import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
-// import Table from './components/table';
+import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
@@ -54,7 +54,7 @@ const iview = {
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
     iButton: Button,
-    // Button,
+    Button,
     ButtonGroup: Button.Group,
     Card,
     Carousel,
@@ -72,34 +72,38 @@ const iview = {
     iCol: Col,
     Collapse,
     Icon,
+    Input,
     iInput: Input,
-    // Input,
     InputNumber,
-    // LoadingBar,
-    iMenu:Menu,
+    LoadingBar,
+    Menu,
+    iMenu: Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
     Submenu: Menu.Sub,
-    // Message,
-    // Modal,
-    // Notice,
+    Message,
+    Modal,
+    Notice,
     iOption: Option,
     OptionGroup,
     Page,
     Panel: Collapse.Panel,
     Poptip,
     Progress,
+    iProgress: Progress,
     Radio,
     RadioGroup: Radio.Group,
     Rate,
     Row,
+    Select,
     iSelect: Select,
     Slider,
     Spin,
     Step: Steps.Step,
     Steps,
     iSwitch: Switch,
-    // iTable: Table,
+    iTable: Table,
+    Table,
     Tabs: Tabs,
     TabPane: Tabs.Pane,
     Tag,
@@ -120,10 +124,10 @@ const install = function (Vue, opts = {}) {
         Vue.component(key, iview[key]);
     });
 
-    // Vue.prototype.$Loading = LoadingBar;
-    // Vue.prototype.$Message = Message;
-    // Vue.prototype.$Modal = Modal;
-    // Vue.prototype.$Notice = Notice;
+    Vue.prototype.$Loading = LoadingBar;
+    Vue.prototype.$Message = Message;
+    Vue.prototype.$Modal = Modal;
+    Vue.prototype.$Notice = Notice;
 };
 
 // auto install
