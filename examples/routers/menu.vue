@@ -17,7 +17,7 @@
                             统计分析
                         </template>
                         <Menu-group title="使用">
-                            <Menu-item name="3-1">新增和启�/Menu-item>
+                            <Menu-item name="3-1">新增和启动</Menu-item>
                             <Menu-item name="3-2">活跃分析</Menu-item>
                             <Menu-item name="3-3">时段分析</Menu-item>
                         </Menu-group>
@@ -86,7 +86,7 @@
                             <!--统计分析-->
                         <!--</template>-->
                         <!--<Menu-group title="使用">-->
-                            <!--<Menu-item name="3-1">新增和启�/Menu-item>-->
+                            <!--<Menu-item name="3-1">新增和启��/Menu-item>-->
                             <!--<Menu-item name="3-2">活跃分析</Menu-item>-->
                             <!--<Menu-item name="3-3">时段分析</Menu-item>-->
                         <!--</Menu-group>-->
@@ -122,7 +122,7 @@
                             <!--统计分析-->
                         <!--</template>-->
                         <!--<Menu-group title="使用">-->
-                            <!--<Menu-item name="3-1">新增和启�/Menu-item>-->
+                            <!--<Menu-item name="3-1">新增和启��/Menu-item>-->
                             <!--<Menu-item name="3-2">活跃分析</Menu-item>-->
                             <!--<Menu-item name="3-3">时段分析</Menu-item>-->
                         <!--</Menu-group>-->
@@ -158,7 +158,7 @@
                             <!--统计分析-->
                         <!--</template>-->
                         <!--<Menu-group title="使用">-->
-                            <!--<Menu-item name="3-1">新增和启�/Menu-item>-->
+                            <!--<Menu-item name="3-1">新增和启��/Menu-item>-->
                             <!--<Menu-item name="3-2">活跃分析</Menu-item>-->
                             <!--<Menu-item name="3-3">时段分析</Menu-item>-->
                         <!--</Menu-group>-->
