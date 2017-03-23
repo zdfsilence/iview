@@ -2,11 +2,12 @@
     <div :class="classes">
         <div :class="headClasses" v-if="showHead"><slot name="title"></slot></div>
         <div :class="extraClasses" v-if="showExtra"><slot name="extra"></slot></div>
-        <div :class="bodyClasses"><slot></slot></div>
+        <div :class="bodyClasses" :style="bodyStyles"><slot></slot></div>
     </div>
 </template>
 <script>
     const prefixCls = 'ivu-card';
+    const defaultPadding = 16;
 
     export default {
         props: {
@@ -21,6 +22,10 @@
             shadow: {
                 type: Boolean,
                 default: false
+            },
+            padding: {
+                type: Number,
+                default: defaultPadding
             }
         },
         data () {
@@ -48,6 +53,15 @@
             },
             bodyClasses () {
                 return `${prefixCls}-body`;
+            },
+            bodyStyles () {
+                if (this.padding !== defaultPadding) {
+                    return {
+                        padding: `${this.padding}px`
+                    };
+                } else {
+                    return '';
+                }
             }
         },
         mounted () {
