@@ -12,6 +12,7 @@
                                 <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
+                        <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
                     </div>
                 </div>
             </div>
@@ -22,11 +23,13 @@
 <script>
     import Icon from '../icon/icon.vue';
     import { oneOf, getStyle } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-tabs';
 
     export default {
         name: 'Tabs',
+        mixins: [ Emitter ],
         components: { Icon },
         props: {
             value: {
@@ -59,7 +62,8 @@
                 navList: [],
                 barWidth: 0,
                 barOffset: 0,
-                activeKey: this.value
+                activeKey: this.value,
+                showSlot: false
             };
         },
         computed: {
@@ -224,7 +228,11 @@
             activeKey () {
                 this.updateBar();
                 this.updateStatus();
+                this.broadcast('Table', 'on-visible-change', true);
             }
+        },
+        mounted () {
+            this.showSlot = this.$slots.extra !== undefined;
         }
     };
 </script>

@@ -112,7 +112,7 @@
                 ];
             },
             showCloseIcon () {
-                return this.currentValue && this.currentValue.length && this.clearable;
+                return this.currentValue && this.currentValue.length && this.clearable && !this.disabled;
             },
             displayRender () {
                 let label = [];
@@ -125,6 +125,7 @@
         },
         methods: {
             clearSelect () {
+                if (this.disabled) return false;
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = this.selected = this.tmpSelected = [];
                 this.handleClose();
@@ -162,9 +163,11 @@
             emitValue (val, oldVal) {
                 if (JSON.stringify(val) !== oldVal) {
                     this.$emit('on-change', this.currentValue, JSON.parse(JSON.stringify(this.selected)));
-                    this.dispatch('FormItem', 'on-form-change', {
-                        value: this.currentValue,
-                        selected: JSON.parse(JSON.stringify(this.selected))
+                    this.$nextTick(() => {
+                        this.dispatch('FormItem', 'on-form-change', {
+                            value: this.currentValue,
+                            selected: JSON.parse(JSON.stringify(this.selected))
+                        });
                     });
                 }
             }
@@ -205,9 +208,11 @@
                         this.updateSelected();
                     }
                 }
+                this.$emit('on-visible-change', val);
             },
             value (val) {
                 this.currentValue = val;
+                if (!val.length) this.selected = [];
             },
             currentValue () {
                 this.$emit('input', this.currentValue);
@@ -216,6 +221,9 @@
                     return;
                 }
                 this.updateSelected(true);
+            },
+            data () {
+                this.$nextTick(() => this.updateSelected());
             }
         }
     };

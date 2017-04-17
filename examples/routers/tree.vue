@@ -5,6 +5,7 @@
     export default {
         data () {
             return {
+                bd: [],
                 baseData: [
                     {
                         expand: true,
@@ -37,26 +38,26 @@
                             ]
                         }]
                     },
-//                    {
-//                        expand: true,
-//                        title: 'parent 1',
-//                        children: [{
-//                            title: 'parent 1-0',
-//                            expand: true,
-//                            children: [{
-//                                title: 'leaf'
-//                            }, {
-//                                title: 'leaf',
-//                            }]
-//                        }, {
-//                            title: 'parent 1-1',
-//                            expand: true,
-//                            checked: true,
-//                            children: [{
-//                                title: '<span style="color: red">leaf</span>',
-//                            }]
-//                        }]
-//                    }
+                    {
+                        expand: true,
+                        title: 'parent 1',
+                        children: [{
+                            title: 'parent 1-0',
+                            expand: true,
+                            children: [{
+                                title: 'leaf'
+                            }, {
+                                title: 'leaf',
+                            }]
+                        }, {
+                            title: 'parent 1-1',
+                            expand: true,
+                            checked: true,
+                            children: [{
+                                title: '<span style="color: red">leaf</span>',
+                            }]
+                        }]
+                    }
                 ]
             }
         },

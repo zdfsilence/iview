@@ -1,137 +1,38 @@
-<!--<template>-->
-    <!--<div>-->
-        <!--<Cascader :data="data" v-model="value1"></Cascader>-->
-        <!--{{ value1 }}-->
-        <!--<div @click="c">change</div>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--value1: [],-->
-                <!--data: [{-->
-                    <!--value: 'beijing',-->
-                    <!--label: '北京',-->
-                    <!--children: [-->
-                        <!--{-->
-                            <!--value: 'gugong',-->
-                            <!--label: '故宫'-->
-                        <!--},-->
-                        <!--{-->
-                            <!--value: 'tiantan',-->
-                            <!--label: '天坛'-->
-                        <!--},-->
-                        <!--{-->
-                            <!--value: 'wangfujing',-->
-                            <!--label: '王府井'-->
-                        <!--}-->
-                    <!--]-->
-                <!--}, {-->
-                    <!--value: 'jiangsu',-->
-                    <!--label: '江苏',-->
-                    <!--children: [-->
-                        <!--{-->
-                            <!--value: 'nanjing',-->
-                            <!--label: '南京',-->
-                            <!--children: [-->
-                                <!--{-->
-                                    <!--value: 'fuzimiao',-->
-                                    <!--label: '夫子庙',-->
-                                <!--}-->
-                            <!--]-->
-                        <!--},-->
-                        <!--{-->
-                            <!--value: 'suzhou',-->
-                            <!--label: '苏州',-->
-                            <!--children: [-->
-                                <!--{-->
-                                    <!--value: 'zhuozhengyuan',-->
-                                    <!--label: '拙政园',-->
-                                <!--},-->
-                                <!--{-->
-                                    <!--value: 'shizilin',-->
-                                    <!--label: '狮子林',-->
-                                <!--}-->
-                            <!--]-->
-                        <!--}-->
-                    <!--],-->
-                <!--}]-->
-            <!--}-->
-        <!--},-->
-        <!--methods: {-->
-            <!--c () {-->
-                <!--this.value1 = ['jiangsu', 'suzhou', 'zhuozhengyuan']-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
-
-
 <template>
     <div>
-        <Cascader :data="data" v-model="value2" change-on-select></Cascader>
-        {{ value2 }}
-        <div @click="c">change</div>
+        <Cascader :data="data2" v-model="v1" disabled clearable></Cascader>
+        <Cascader :data="data2" clearable></Cascader>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value2: [],
-                data: [{
-                    value: 'beijing',
-                    label: '北京',
-                    children: [
-                        {
-                            value: 'gugong',
-                            label: '故宫'
-                        },
-                        {
-                            value: 'tiantan',
-                            label: '天坛'
-                        },
-                        {
-                            value: 'wangfujing',
-                            label: '王府井'
-                        }
-                    ]
+                v1: ['zhejiang', 'hangzhou', 'xihu'],
+                data2: [{
+                    value: 'zhejiang',
+                    label: '浙江',
+                    children: [{
+                        value: 'hangzhou',
+                        label: '杭州',
+                        children: [{
+                            value: 'xihu',
+                            label: '西湖'
+                        }]
+                    }]
                 }, {
                     value: 'jiangsu',
                     label: '江苏',
-                    children: [
-                        {
-                            value: 'nanjing',
-                            label: '南京',
-                            children: [
-                                {
-                                    value: 'fuzimiao',
-                                    label: '夫子庙',
-                                }
-                            ]
-                        },
-                        {
-                            value: 'suzhou',
-                            label: '苏州',
-                            children: [
-                                {
-                                    value: 'zhuozhengyuan',
-                                    label: '拙政园',
-                                },
-                                {
-                                    value: 'shizilin',
-                                    label: '狮子林',
-                                }
-                            ]
-                        }
-                    ],
+                    disabled: true,
+                    children: [{
+                        value: 'nanjing',
+                        label: '南京',
+                        children: [{
+                            value: 'zhonghuamen',
+                            label: '中华门'
+                        }]
+                    }]
                 }]
-            }
-        },
-        methods: {
-            c () {
-                this.value2 = ['jiangsu', 'suzhou', 'zhuozhengyuan']
             }
         }
     }
