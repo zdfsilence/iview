@@ -610,7 +610,7 @@
                 this.$emit('on-query-change', val);
 
                 this.broadcastQuery(val);
-                
+
                 let is_hidden = true;
 
                 this.$nextTick(() => {

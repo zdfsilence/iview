@@ -1,10 +1,10 @@
 <template>
     <div>
-        <Checkbox v-model="single" @on-change="s">Checkbox</Checkbox>
+        <!-- <Checkbox v-model="single" @on-change="s">Checkbox</Checkbox>
         {{ single }}
         <div @click="single = !single">single-change</div>
-        <br>
-        {{ social }}
+        <br> -->
+        <!-- {{ social }}
         <Checkbox-group v-model="social" @on-change="s">
             <Checkbox label="twitter">
                 <Icon type="social-twitter"></Icon>
@@ -22,8 +22,8 @@
                 <Icon type="social-snapchat"></Icon>
                 <span>Snapchat</span>
             </Checkbox>
-        </Checkbox-group>
-        <br>
+        </Checkbox-group> -->
+        <!-- <br>
         <div @click="c">修改1</div>
         {{ fruit }}
         <Checkbox-group v-model="fruit">
@@ -45,7 +45,7 @@
                     :indeterminate="indeterminate"
                     v-model="checkAll"
                     @click.prevent.native="handleCheckAll">全选</Checkbox>
-        </div>
+        </div> -->
         <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange">
             <Checkbox label="香蕉"></Checkbox>
             <Checkbox label="苹果"></Checkbox>
