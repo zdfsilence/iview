@@ -69,7 +69,7 @@
         },
         methods: {
             updateActiveName () {
-                if (this.currentActiveName === undefined) {
+                if (!this.currentActiveName) {
                     this.currentActiveName = -1;
                 }
                 this.broadcast('Submenu', 'on-update-active-name', false);

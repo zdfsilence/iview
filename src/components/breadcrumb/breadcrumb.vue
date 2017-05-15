@@ -22,11 +22,6 @@
         mounted () {
             this.updateChildren();
         },
-        updated () {
-            this.$nextTick(() => {
-                this.updateChildren();
-            });
-        },
         methods: {
             updateChildren () {
                 this.$children.forEach((child) => {

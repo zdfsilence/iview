@@ -191,17 +191,10 @@
 
                 let prop = getPropByPath(model, path);
 
-//                if (Array.isArray(value) && value.length > 0) {
-//                    this.validateDisabled = true;
-//                    prop.o[prop.k] = [];
-//                } else if (value !== this.initialValue) {
-//                    this.validateDisabled = true;
-//                    prop.o[prop.k] = this.initialValue;
-//                }
-                if (Array.isArray(value)) {
+                if (Array.isArray(value) && value.length > 0) {
                     this.validateDisabled = true;
-                    prop.o[prop.k] = [].concat(this.initialValue);
-                } else {
+                    prop.o[prop.k] = [];
+                } else if (value !== this.initialValue) {
                     this.validateDisabled = true;
                     prop.o[prop.k] = this.initialValue;
                 }

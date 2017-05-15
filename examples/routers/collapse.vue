@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 400px;margin: 200px;">
+    <div>
         <Collapse v-model="v1" accordion>
             <Panel name="1">
                 史蒂夫·乔布斯

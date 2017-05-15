@@ -9,9 +9,7 @@
         </div>
         <div :class="[prefixCls + '-main']">
             <div :class="[prefixCls + '-title']">{{ title }}</div>
-            <slot>
-                <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
-            </slot>
+            <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
         </div>
     </div>
 </template>
