@@ -164,7 +164,7 @@
     export default {
         data () {
             return {
-                data1: this.getMockData(),
+                data1: [] || this.getMockData(),
                 targetKeys1: this.getTargetKeys()
             }
         },
@@ -178,7 +178,7 @@
                 setTimeout(function() {
                     console.log('--1');
                     // _this.data1 = null;
-                    _this.data1 = _this.getMockData1();
+//                    _this.data1 = _this.getMockData1();
                     console.log('-fetch-', _this.data1);
 
                 }, 1500);

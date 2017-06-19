@@ -152,6 +152,9 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            disabledHover: {
+                type: Boolean
             }
         },
         data () {
@@ -351,10 +354,12 @@
                 });
             },
             handleMouseIn (_index) {
+                if (this.disabledHover) return;
                 if (this.objData[_index]._isHover) return;
                 this.objData[_index]._isHover = true;
             },
             handleMouseOut (_index) {
+                if (this.disabledHover) return;
                 this.objData[_index]._isHover = false;
             },
             highlightCurrentRow (_index) {
@@ -403,6 +408,18 @@
                     this.$emit('on-select', selection, JSON.parse(JSON.stringify(this.data[_index])));
                 }
                 this.$emit('on-selection-change', selection);
+            },
+            toggleExpand (_index) {
+                let data = {};
+
+                for (let i in this.objData) {
+                    if (parseInt(i) === _index) {
+                        data = this.objData[i];
+                    }
+                }
+                const status = !data._isExpanded;
+                this.objData[_index]._isExpanded = status;
+                this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
@@ -573,15 +590,20 @@
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
-                    if(newRow._disabled){
+                    if (newRow._disabled) {
                         newRow._isDisabled = newRow._disabled;
-                    }else{
+                    } else {
                         newRow._isDisabled = false;
                     }
                     if (newRow._checked) {
                         newRow._isChecked = newRow._checked;
                     } else {
                         newRow._isChecked = false;
+                    }
+                    if (newRow._expanded) {
+                        newRow._isExpanded = newRow._expanded;
+                    } else {
+                        newRow._isExpanded = false;
                     }
                     if (newRow._highlight) {
                         newRow._isHighlight = newRow._highlight;
