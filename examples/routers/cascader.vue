@@ -1,19 +1,13 @@
 <template>
-    <div style="width: 400px;">
-        <Row>
-            <i-col span="12">
-                <Cascader transfer v-model="value3" :data="data" filterable></Cascader>
-            </i-col>
-            <i-col span="12">
-                <Cascader v-model="value3" :data="data" filterable></Cascader>
-            </i-col>
-        </Row>
+    <div style="width: 200px;margin: 100px;">
+        <Cascader :data="data" v-model="value1"></Cascader>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
+                value1: [],
                 data: [{
                     value: 'beijing',
                     label: '北京',
@@ -60,8 +54,7 @@
                             ]
                         }
                     ],
-                }],
-                value3: []
+                }]
             }
         }
     }
