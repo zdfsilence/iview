@@ -5,6 +5,7 @@
             ref="reference"
             @click="toggleMenu">
             <slot name="input">
+                <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
                     <span class="ivu-tag-text">{{ item.label }}</span>
                     <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
@@ -12,6 +13,7 @@
                 <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
                 <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
                 <input
+                    :id="elementId"
                     type="text"
                     v-if="filterable"
                     v-model="query"
@@ -131,6 +133,12 @@
             autoComplete: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -627,6 +635,7 @@
                         this.$nextTick(() => this.broadcastQuery(''));
                     } else {
                         this.findChild((child) => {
+                            child.updateSearchLabel();   // #1865
                             child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                         });
                     }
