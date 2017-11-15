@@ -1,5 +1,8 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'ru-RU',
         select: {
             placeholder: 'Выбрать',
             noMatch: 'Нет соответствующих данных',
@@ -19,6 +22,7 @@ export default {
             endTime: 'Конечное время',
             clear: 'Очистить',
             ok: 'OK',
+            datePanelLabel: '[Mmmm] [yyyy]',
             month: '',
             month1: 'Январь',
             month2: 'Февраль',
@@ -95,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

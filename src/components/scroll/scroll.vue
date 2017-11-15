@@ -2,19 +2,20 @@
     <div :class="wrapClasses" style="touch-action: none;">
         <div
             :class="scrollContainerClasses"
+            :style="{height: height + 'px'}"
             @scroll="handleScroll"
             @wheel="onWheel"
             @touchstart="onPointerDown"
             ref="scrollContainer"
         >
             <div :class="loaderClasses" :style="{paddingTop: wrapperPadding.paddingTop}" ref="toploader">
-                <loader :text="loadingText" :active="showTopLoader"></loader>
+                <loader :text="localeLoadingText" :active="showTopLoader"></loader>
             </div>
             <div :class="slotContainerClasses" ref="scrollContent">
                 <slot></slot>
             </div>
             <div :class="loaderClasses" :style="{paddingBottom: wrapperPadding.paddingBottom}" ref="bottomLoader">
-                <loader :text="loadingText" :active="showBottomLoader"></loader>
+                <loader :text="localeLoadingText" :active="showBottomLoader"></loader>
             </div>
         </div>
     </div>
@@ -23,6 +24,7 @@
     import throttle from 'lodash.throttle';
     import loader from './loading-component.vue';
     import { on, off } from '../../utils/dom';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-scroll';
     const dragConfig = {
@@ -30,29 +32,33 @@
         minimumStartDragOffset: 5, // minimum start drag offset
     };
 
+    const noop = () => Promise.resolve();
+
     export default {
         name: 'Scroll',
-        mixins: [],
+        mixins: [ Locale ],
         components: {loader},
         props: {
+            height: {
+                type: [Number, String],
+                default: 300
+            },
             onReachTop: {
-                type: Function,
-                default: () => Promise.resolve()
+                type: Function
             },
             onReachBottom: {
-                type: Function,
-                default: () => Promise.resolve()
+                type: Function
             },
             onReachEdge: {
-                type: Function,
-                default: () => Promise.resolve()
+                type: Function
             },
             loadingText: {
-                type: String,
-                default: ''
-            }
+                type: String
+            },
+            distanceToEdge: [Number, Array]
         },
         data() {
+            const distanceToEdge = this.calculateProximityThreshold();
             return {
                 showTopLoader: false,
                 showBottomLoader: false,
@@ -69,6 +75,10 @@
                 handleScroll: () => {},
                 pointerUpHandler: () => {},
                 pointerMoveHandler: () => {},
+
+                // near to edge detectors
+                topProximityThreshold: distanceToEdge[0],
+                bottomProximityThreshold: distanceToEdge[1]
             };
         },
         computed: {
@@ -94,7 +104,14 @@
                     paddingTop: this.topRubberPadding + 'px',
                     paddingBottom: this.bottomRubberPadding + 'px'
                 };
-            }
+            },
+            localeLoadingText () {
+                if (this.loadingText === undefined) {
+                    return this.t('i.select.loading');
+                } else {
+                    return this.loadingText;
+                }
+            },
         },
         methods: {
             // just to improve feeling of loading and avoid scroll trailing events fired by the browser
@@ -102,6 +119,12 @@
                 return new Promise(resolve => {
                     setTimeout(resolve, 1000);
                 });
+            },
+
+            calculateProximityThreshold(){
+                const dte = this.distanceToEdge;
+                if (typeof dte == 'undefined') return [20, 20];
+                return Array.isArray(dte) ? dte : [dte, dte];
             },
 
             onCallback(dir) {
@@ -129,8 +152,8 @@
                     }
                 }
 
-                const callbacks = [this.waitOneSecond(), this.onReachEdge(dir)];
-                callbacks.push(dir > 0 ? this.onReachTop() : this.onReachBottom());
+                const callbacks = [this.waitOneSecond(), this.onReachEdge ? this.onReachEdge(dir) : noop()];
+                callbacks.push(dir > 0 ? this.onReachTop ? this.onReachTop() : noop() : this.onReachBottom ? this.onReachBottom() : noop());
 
                 let tooSlow = setTimeout(() => {
                     this.reset();
@@ -167,7 +190,7 @@
                 }
             },
 
-            onWheel() {
+            onWheel(event) {
                 if (this.isLoading) return;
 
                 // get the wheel direction
@@ -178,6 +201,15 @@
             stretchEdge(direction) {
                 clearTimeout(this.rubberRollBackTimeout);
 
+                // check if set these props
+                if (!this.onReachEdge) {
+                    if (direction > 0) {
+                        if (!this.onReachTop) return;
+                    } else {
+                        if (!this.onReachBottom) return;
+                    }
+                }
+
                 // if the scroll is not strong enough, lets reset it
                 this.rubberRollBackTimeout = setTimeout(() => {
                     if (!this.isLoading) this.reset();
@@ -186,10 +218,10 @@
                 // to give the feeling its ruberish and can be puled more to start loading
                 if (direction > 0 && this.reachedTopScrollLimit) {
                     this.topRubberPadding += 5 - this.topRubberPadding / 5;
-                    if (this.topRubberPadding > 20) this.onCallback(1);
+                    if (this.topRubberPadding > this.topProximityThreshold) this.onCallback(1);
                 } else if (direction < 0 && this.reachedBottomScrollLimit) {
                     this.bottomRubberPadding += 6 - this.bottomRubberPadding / 4;
-                    if (this.bottomRubberPadding > 20) this.onCallback(-1);
+                    if (this.bottomRubberPadding > this.bottomProximityThreshold) this.onCallback(-1);
                 } else {
                     this.onScroll();
                 }
@@ -201,9 +233,11 @@
                 const scrollDirection = Math.sign(this.lastScroll - el.scrollTop); // IE has no Math.sign, check that webpack polyfills this
                 const displacement = el.scrollHeight - el.clientHeight - el.scrollTop;
 
-                if (scrollDirection == -1 && displacement <= dragConfig.sensitivity) {
+                const topNegativeProximity = this.topProximityThreshold < 0 ? this.topProximityThreshold : 0;
+                const bottomNegativeProximity = this.bottomProximityThreshold < 0 ? this.bottomProximityThreshold : 0;
+                if (scrollDirection == -1 && displacement + bottomNegativeProximity <= dragConfig.sensitivity) {
                     this.reachedBottomScrollLimit = true;
-                } else if (scrollDirection >= 0 && el.scrollTop == 0) {
+                } else if (scrollDirection >= 0 && el.scrollTop + topNegativeProximity <= 0) {
                     this.reachedTopScrollLimit = true;
                 } else {
                     this.reachedTopScrollLimit = false;

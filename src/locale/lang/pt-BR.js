@@ -1,5 +1,8 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'pt-BR',
         select: {
             placeholder: 'Selecionar',
             noMatch: 'Não encontrado',
@@ -19,6 +22,7 @@ export default {
             endTime: 'Hora final',
             clear: 'Limpar',
             ok: 'Confirmar',
+            datePanelLabel: '[mmmm] de [yyyy]',
             month: 'Mês',
             month1: 'Janeiro',
             month2: 'Fevereiro',
@@ -95,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;
